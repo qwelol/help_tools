@@ -1,0 +1,13 @@
+{
+	"name":"help_tools",
+	"description":"Any tools for me",
+	"version":"0.1",
+	"manifest_version":2,
+	"content_scripts":[
+		{
+			"matches":["https://tradeit.gg/*", "https://cs.money/*"],
+			"js":["script.js"],
+			"run_at":"document_end"
+		}
+	]
+}
