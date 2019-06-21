@@ -7,15 +7,17 @@ function setListener(){
 			if (tmp[0]==="Inscribed"){
 				tmp.shift();
 			}
+			var appid = items[i].dataset.appid;
 			var searchContext = tmp.join('+');
-			window.open('https://steamcommunity.com/market/search?appid=570&q='+searchContext);
+			window.open('https://steamcommunity.com/market/search?appid='+appid+'&q='+searchContext);
 		}
 	}
-	alert('good');
+	setTimeout(setListener,3000);
 }
 var host=window.location.hostname;
 switch (host){
 	case "tradeit.gg":{
+		document.querySelector(".rmb-item-menu").remove();
 		setTimeout(setListener,10000);
 		break;
 	}
