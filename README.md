@@ -1,5 +1,6 @@
 # Available functions:
-   - On tradeit.gg added the ability to search for an item on the steam market by clicking the left mouse button.
+   - On 
+   [tradeit.gg](http://tradeit.gg) added the ability to search for an item on the steam market by clicking the left mouse button.
 # How to install:
    - Save the extension folder on your device. 
    - Go to 
