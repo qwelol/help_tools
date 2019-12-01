@@ -1,11 +1,11 @@
 {
-	"name":"help_tools",
+	"name":"Help Tools",
 	"description":"Any tools for me",
 	"version":"0.1",
 	"manifest_version":2,
 	"content_scripts":[
 		{
-			"matches":["https://tradeit.gg/*", "https://cs.money/*"],
+			"matches":["https://tradeit.gg/*", "https://cs.money/*", "https://dmarket.com/*"],
 			"js":["script.js"],
 			"run_at":"document_end"
 		}
