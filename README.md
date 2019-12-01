@@ -1,6 +1,6 @@
 # Available functions:
    - On 
-   [tradeit.gg](http://tradeit.gg) added the ability to search for an item on the steam market by clicking the left mouse button.
+   [tradeit.gg](http://tradeit.gg) and [dmarket.com](https://dmarket.com/ingame-items/item-list/csgo-skins) added the ability to search for an item on the steam market by clicking the left mouse button.
 # How to install:
    - Save the extension folder on your device. 
    - Go to 
