@@ -62,5 +62,26 @@ window.onload = function () {
 			setTimeout(setDmarketListener,10000);
 			break;
 		}
+		case "skins-table.xyz":{
+			function counter(){
+				let count = 0;
+				const table = document.querySelector("table.table.table-bordered");
+				count = table.tBodies[0].querySelectorAll("tr").length;
+				console.log("count:",count);
+				const refreshInput = document.getElementsByName("refresh")[0];
+				let refreshRate = +refreshInput.value * 1000;
+				console.log("refreshRate:",refreshRate);
+				clearTimeout(timerId);
+				timerId = setTimeout(counter,refreshRate);
+				refreshInput.onchange = () => {
+					clearTimeout(timerId);
+					refreshRate = +refreshInput.value * 1000;
+					console.log("refreshRate:",refreshRate);
+					timerId = setTimeout(counter,refreshRate);
+				}				
+			}
+			let timerId = setTimeout(counter,1000);
+			break;
+		}
 	}
 }

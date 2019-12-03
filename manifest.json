@@ -5,7 +5,7 @@
 	"manifest_version":2,
 	"content_scripts":[
 		{
-			"matches":["https://tradeit.gg/*", "https://cs.money/*", "https://dmarket.com/*"],
+			"matches":["https://tradeit.gg/*", "https://cs.money/*", "https://dmarket.com/*", "https://skins-table.xyz/*"],
 			"js":["script.js"],
 			"run_at":"document_end"
 		}
