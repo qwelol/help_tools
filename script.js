@@ -27,6 +27,8 @@ window.onload = function () {
 			break;
 		}
 		case "dmarket.com":{
+			
+			//status marker 
 			let status = document.createElement("div");
 			status.classList.add("extension-status");
 			status.style.cssText = 
@@ -34,6 +36,7 @@ window.onload = function () {
 					"border-radius: 100px; cursor:default; user-select:none; transition: 1s;";
 			let navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
 			navControls.appendChild(status);
+
 			let counter = 0;
 			function setDmarketListener(){
 				let appids = {
@@ -63,10 +66,17 @@ window.onload = function () {
 			break;
 		}
 		case "skins-table.xyz":{
+			let count = 0;
 			function counter(){
-				let count = 0;
 				const table = document.querySelector("table.table.table-bordered");
-				count = table.tBodies[0].querySelectorAll("tr").length;
+				if (count !== table.tBodies[0].querySelectorAll("tr").length){
+					count = table.tBodies[0].querySelectorAll("tr").length;
+					console.log("count changed");
+					//send count on background.js
+					chrome.runtime.sendMessage({host,count}, (response)=>{
+						console.log(response);
+					})
+				}
 				console.log("count:",count);
 				const refreshInput = document.getElementsByName("refresh")[0];
 				let refreshRate = +refreshInput.value * 1000;
@@ -81,6 +91,12 @@ window.onload = function () {
 				}				
 			}
 			let timerId = setTimeout(counter,1000);
+			window.onunload = () => {
+				//remove counter message
+				chrome.runtime.sendMessage({close:true, host}, (response)=>{
+					console.log(response);
+				});
+			}
 			break;
 		}
 	}
