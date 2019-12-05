@@ -1,0 +1,16 @@
+.extension-status {
+    position: absolute; 
+    width: 10px; 
+    height: 10px; 
+    z-index: 1; 
+    background-color: #ff0000; 
+    top: 15px; 
+    left: -12px;
+    border-radius: 100px;
+    cursor:default;
+    user-select:none;
+    transition: 1s;
+}
+.extension-status.good {
+    background-color: #00ff00;
+}
