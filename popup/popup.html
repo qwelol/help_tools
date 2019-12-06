@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script src="popup.js"></script>
+      <link rel="stylesheet" href="popup.css">
+      <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="popup">
+        <div class="row">
+            <div class="title">Tradeit.gg</div>
+            <div class="toggle">
+                <div class="bg" onclick="toggle(event)">
+                    <div class="button"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="title">Dmarket.com</div>
+            <div class="toggle">
+                <div class="bg" onclick="toggle(event)">
+                        <div class="button"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="title">Skins-table.xyz</div>
+            <div class="toggle">
+                <div class="bg" onclick="toggle(event)">
+                    <div class="button"></div>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="list-title">Notify by:</div>
+                <div class="li">
+                    <div class="container">
+                        <input type="radio" name="list-checks" checked>
+                        <div class="text">Count change</div>
+                     </div>
+                </div>
+                <div class="li">
+                    <div class="container">
+                        <input type="radio" name="list-checks">
+                        <div class="text">Items more then </div>
+                    </div>
+                    <input type="number" name="" id="" class="input">
+                </div>
+                <div class="li">
+                    <div class="container">
+                        <input type="radio" name="list-checks">
+                        <div class="text">Items from the list appeared:</div>
+                    </div>
+                    <button class="add">+</button>
+                </div>
+                <table class="table">
+                    <tr class="tr">
+                        <td class="table-title">Name</td>
+                    </tr>
+                    <tr class="tr">
+                        <td class="table-item">
+                            <div class="text">Desert Eagle | Urban Rubble (Minimal Wear)</div>
+                            <button class="table-btn">x</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    </div>
+  </body>
+</html>

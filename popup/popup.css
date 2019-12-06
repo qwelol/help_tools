@@ -1,0 +1,142 @@
+* {
+    font-family: 'Arimo', sans-serif;
+    font-style: normal;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+}
+button {
+    margin:0;
+    padding: 0;
+    outline: none;
+    border: none;
+}
+.popup {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    height: 300px;
+    background: #1C2A39;
+    padding: 18px 37px;
+}
+.popup .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.popup .row .title {
+    font-size: 18px;
+    line-height: 21px;
+    color: #BDD5DF;
+}
+.popup .row .toggle {
+    width: 36px;
+    height: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+.popup .row .toggle .bg {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    width: 36px;
+    height: 20px;
+    background: #B2B6B4;
+    border-radius: 4px;
+}
+.popup .row .toggle .bg.active {
+    background: #7DB139;
+}
+.popup .row .toggle .bg .button {
+    width: 14px;
+    height: 14px;
+    background: #EEEEEE;
+    border-radius: 4px;
+    transform: translateX(0px);
+    transition: 0.25s;
+}
+.popup .row .toggle .bg.active .button {
+    transform: translateX(14px);
+}
+.popup .list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.popup .list .list-title{
+    font-size: 14px;
+    line-height: 16px;
+    color: #BDD5DF;
+    margin-bottom: 3px;
+}
+.popup .list .li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+}
+.popup .list .li .container {
+    display: flex;
+}
+.popup .list .li .container .text {
+    font-size: 14px;
+    line-height: 16px;
+    color: #BDD5DF;
+}
+.popup .list .li .container input {
+    margin-right: 6px;
+}
+.popup .list .li .input {
+    width: 154px;
+    height: 24px;
+    background: #223E53;
+    outline: none;
+    font-size: 12px;
+    line-height: 14px;
+    color: #BDD5DF;
+    border:none;
+}
+.popup .list .li .add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 10px;
+    color: #000000;
+}
+.popup .table {
+    width: 531px;
+}
+.popup .table .tr {
+    background: #16202D;
+}
+.popup .table .tr .table-title {
+    height: 22px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #BDD5DF;  
+    padding: 0 10px;
+}
+.popup .table .tr .table-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    height: 22px;
+}
+.popup .table .tr .table-item .text {
+    font-size: 12px;
+    line-height: 14px;
+    color: #BDD5DF;
+}
+.popup .table .tr .table-item .table-btn {
+    text-align: center;
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 10px;
+    color: #ff0000;
+}
