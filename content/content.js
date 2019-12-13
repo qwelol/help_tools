@@ -81,6 +81,17 @@ window.onload = function () {
 								let searchContext = rows[i].children[j].querySelector(".c-asset__img").alt;
 								window.open('https://steamcommunity.com/market/search?appid='+appid+'&q='+searchContext);
 							}
+							let icon = rows[i].children[j].querySelector("span .c-asset__lockIcon");
+							if (icon){
+								let iconName = icon.getAttribute("inlinesvg");
+								let cart = rows[i].children[j].querySelector("div.c-asset__inner");
+								if (iconName === "icon-unlock.svg") {
+									cart.classList.add("highlited");
+								}
+								else {
+									cart.classList.remove("highlited");
+								}
+							}
 						}
 					}
 				}
@@ -88,9 +99,9 @@ window.onload = function () {
 					document.querySelector(".extension-status").classList.add("good");
 				}
 				counter++;
-				setTimeout(setDmarketListener,3000);
+				setTimeout(setDmarketListener,1000);
 			}
-			setTimeout(setDmarketListener,10000);
+			setTimeout(setDmarketListener,5000);
 			break;
 		}
 		case "skins-table.xyz":{
