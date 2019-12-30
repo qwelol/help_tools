@@ -58,33 +58,39 @@ window.onload = function () {
 			break;
 		}
 		case "dmarket.com":{
-			
 			//status marker 
 			let status = document.createElement("div");
 			status.classList.add("extension-status");
 			let navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
-			navControls.appendChild(status);
-
+			if (navControls) {
+				navControls.appendChild(status);
+			}
+			
 			let counter = 0;
 			function setDmarketListener(){
+				
 				let appids = {
-					"CS:GO":"730",
-					"Dota 2": "570",
+					"cs:go":"730",
+					"dota 2": "570",
 				}
 				let rows = document.querySelectorAll("od-virtualrow");
-				let currentGame = document.querySelector(".c-dialogFilters__select-value").textContent;
-				if (currentGame === "CS:GO" || currentGame === "Dota 2") {
+				let gameContainer = document.querySelector(".c-dialogFilters__select-value");
+				let currentGame = gameContainer? gameContainer.textContent.toLowerCase() : null;
+				if (Object.keys(appids).indexOf(currentGame)!== -1 && rows.length) {	
 					let appid = appids[currentGame];
 					for (let i=0; i<rows.length; i++){
-						for (let j=0; j<rows[i].children.length; j++){
-							rows[i].children[j].oncontextmenu = ()=> {
-								let searchContext = rows[i].children[j].querySelector(".c-asset__img").alt;
+						let children = rows[i].querySelectorAll(".c-asset.ng-star-inserted");
+						for (let j=0; j<children.length; j++){
+							// search
+							children[j].oncontextmenu = ()=> {
+								let searchContext = children[j].querySelector(".c-asset__img").alt;
 								window.open('https://steamcommunity.com/market/search?appid='+appid+'&q='+searchContext);
 							}
-							let icon = rows[i].children[j].querySelector("span .c-asset__lockIcon");
+							// highlighting 
+							let icon = children[j].querySelector("span .c-asset__lockIcon");
 							if (icon){
 								let iconName = icon.getAttribute("inlinesvg");
-								let cart = rows[i].children[j].querySelector("div.c-asset__inner");
+								let cart = children[j].querySelector("div.c-asset__inner");
 								if (iconName === "icon-unlock.svg") {
 									cart.classList.add("highlited");
 								}
@@ -94,14 +100,19 @@ window.onload = function () {
 							}
 						}
 					}
+					navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
+					if (navControls) {
+						navControls.appendChild(status);
+					}
+					if (!counter) {
+						status.classList.add("good");
+					}
+					counter++;
 				}
-				if (!counter) {
-					document.querySelector(".extension-status").classList.add("good");
-				}
-				counter++;
-				setTimeout(setDmarketListener,1000);
+				// setTimeout(setDmarketListener,1000);
 			}
-			setTimeout(setDmarketListener,5000);
+			setInterval(setDmarketListener,1000);
+			//setTimeout(setDmarketListener,5000);
 			break;
 		}
 		case "skins-table.xyz":{
