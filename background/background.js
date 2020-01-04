@@ -1,22 +1,53 @@
 let count={};
+// get options from storage
+let options={
+    state:{
+        "Tradeit.gg":true,
+        "Dmarket.com":false,
+        "Skins-table.xyz":true,
+    }
+};
 chrome.runtime.onMessage.addListener((request,sender,sendResponse)=>{
-    if (request.host === "skins-table.xyz"){
-        let difference = count[sender.tab.id] && request.count? request.count - count[sender.tab.id] : 0;
-        count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
-        console.log("count", count);
-        sendResponse({status:"ok"});
-        // notification 
-        if (difference>0) {
-            showNotification(difference);
+    switch (request.host){
+        case "skins-table.xyz":{
+            counterTracking(request,sender,sendResponse);
+            break;
         }
-        // clear count if tab close
-        if (request.close){
-            delete count[sender.tab.id];
-            console.log("closed counter for",sender.tab.id);
-            console.log("count", count);
+        case "popup":{
+            changeOptions(request,sender,sendResponse);
+            break; 
         }
     }
 });
+function changeOptions(request,sender,sendResponse){
+    let isEmpty = request.state && !Object.keys(request.state).length;
+    if (isEmpty){
+        // send state
+        sendResponse({status:"ok",options});   
+    }
+    else {
+        // get state
+        options.state=JSON.parse(JSON.stringify(request.state));
+        sendResponse({status:"ok"});
+        // put into LocalStorage 
+    }
+}
+function counterTracking(request,sender,sendResponse) {
+    let difference = count[sender.tab.id] && request.count? request.count - count[sender.tab.id] : 0;
+    count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+    console.log("count", count);
+    sendResponse({status:"ok"});
+    // notification 
+    if (difference>0) {
+        showNotification(difference);
+    }
+    // clear count if tab close
+    if (request.close){
+        delete count[sender.tab.id];
+        console.log("closed counter for",sender.tab.id);
+        console.log("count", count);
+    }
+}
 function showNotification(difference) {
     let notificationOptions = {
         type:"basic",

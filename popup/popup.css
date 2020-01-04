@@ -12,23 +12,57 @@ button {
     outline: none;
     border: none;
 }
+label {
+    user-select: none;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7DB139;
+  }
 .popup {
     display: flex;
     flex-direction: column;
     width: 600px;
     height: 300px;
     background: #1C2A39;
-    padding: 18px 37px;
+    padding: 18px 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.popup:hover::-webkit-scrollbar-thumb{
+    background: #7DB139;
 }
 .popup .row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 16px;
+    padding: 5px 38px;
+    margin-bottom: 6px;
+}
+.popup .row:hover {
+    background-color: rgba(65,123,159,.1);
+    color: #FFF;
 }
 .popup .row .title {
     font-size: 18px;
     line-height: 21px;
     color: #BDD5DF;
+    cursor: default;
 }
 .popup .row .toggle {
     width: 36px;
@@ -45,7 +79,7 @@ button {
     background: #B2B6B4;
     border-radius: 4px;
 }
-.popup .row .toggle .bg.active {
+.popup .row.active .toggle .bg {
     background: #7DB139;
 }
 .popup .row .toggle .bg .button {
@@ -56,19 +90,21 @@ button {
     transform: translateX(0px);
     transition: 0.25s;
 }
-.popup .row .toggle .bg.active .button {
+.popup .row.active .toggle .bg .button {
     transform: translateX(14px);
 }
 .popup .list {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 0 38px;
 }
 .popup .list .list-title{
     font-size: 14px;
     line-height: 16px;
     color: #BDD5DF;
     margin-bottom: 3px;
+    user-select: none;
 }
 .popup .list .li {
     display: flex;
@@ -78,6 +114,7 @@ button {
 }
 .popup .list .li .container {
     display: flex;
+    cursor: pointer;
 }
 .popup .list .li .container .text {
     font-size: 14px;
@@ -106,12 +143,15 @@ button {
     font-size: 14px;
     line-height: 10px;
     color: #000000;
+    cursor: pointer;
+    user-select: none;
 }
 .popup .table {
-    width: 531px;
+    width: 100%;
 }
 .popup .table .tr {
     background: #16202D;
+    overflow: hidden;
 }
 .popup .table .tr .table-title {
     height: 22px;
@@ -134,9 +174,12 @@ button {
 }
 .popup .table .tr .table-item .table-btn {
     text-align: center;
-    width: 14px;
-    height: 14px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 10px;
     color: #ff0000;
+    background: transparent;
+    cursor: pointer;
+}
+.popup .table .tr .table-item .table-btn:hover {
+    text-decoration: underline;
 }
