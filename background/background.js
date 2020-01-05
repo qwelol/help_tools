@@ -1,12 +1,11 @@
 let count={};
+let options={};
 // get options from storage
-let options={
-    state:{
-        "Tradeit.gg":true,
-        "Dmarket.com":false,
-        "Skins-table.xyz":true,
-    }
-};
+chrome.storage.sync.get(['options'], result => {
+    console.log('received options ', result.options);
+    options=JSON.parse(JSON.stringify(result.options));
+});
+
 chrome.runtime.onMessage.addListener((request,sender,sendResponse)=>{
     switch (request.host){
         case "skins-table.xyz":{
@@ -17,19 +16,31 @@ chrome.runtime.onMessage.addListener((request,sender,sendResponse)=>{
             changeOptions(request,sender,sendResponse);
             break; 
         }
+        case "options":{
+            sendResponse({status:"ok",options});
+            break;
+        }
+        default:{
+            sendResponse({status:"not found"});
+        }
     }
 });
 function changeOptions(request,sender,sendResponse){
-    let isEmpty = request.state && !Object.keys(request.state).length;
+    let isEmpty = request.options && !Object.keys(request.options).length;
     if (isEmpty){
         // send state
         sendResponse({status:"ok",options});   
     }
     else {
         // get state
-        options.state=JSON.parse(JSON.stringify(request.state));
+        console.log("request",request);
+        options=JSON.parse(JSON.stringify(request.options));
+        console.log("options",options);  
         sendResponse({status:"ok"});
-        // put into LocalStorage 
+        // put into storage
+        chrome.storage.sync.set({options}, () => {
+            console.log('saved options',options);
+        }); 
     }
 }
 function counterTracking(request,sender,sendResponse) {

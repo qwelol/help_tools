@@ -1,6 +1,32 @@
 window.onload = function () {
-	let host=window.location.hostname;
-
+	// get options
+	chrome.runtime.sendMessage({host:"options"}, (response)=>{
+		const options = response.options? JSON.parse(JSON.stringify(response.options)):{};
+		const state = options.state? JSON.parse(JSON.stringify(options.state)):{};
+		const host=window.location.hostname;
+		if (state[host]){
+			console.log("approved");
+			switch (host){
+				case "tradeit.gg":{
+					document.querySelector(".rmb-item-menu").remove();
+					setTimeout(setListener,10000);
+					break;
+				}
+				case "dmarket.com":{
+					dmarketController();
+					break;
+				}
+				case "skins-table.xyz":{
+					const pathName = window.location.pathname;
+					if (pathName === "/table/" ){
+						tableTracking();
+					}
+					break;
+				}
+			}
+		}
+	})
+	// tradeit 
 	function setListener(){
 		let items=document.querySelectorAll("div#sinv-loader li.item");
 		for (let i=0; i<items.length; i++){
@@ -17,48 +43,9 @@ window.onload = function () {
 		}
 		setTimeout(setListener,3000);
 	}
-	function tableTracking() {
-		let count = 0;
-		function counter(){
-			const table = document.querySelector("table.table.table-bordered");
-			if (count !== table.tBodies[0].querySelectorAll("tr").length){
-				count = table.tBodies[0].querySelectorAll("tr").length;
-				console.log("count changed");
-				//send count on background.js
-				chrome.runtime.sendMessage({host,count}, (response)=>{
-					console.log(response);
-				})
-			}
-			console.log("count:",count);
-			const refreshInput = document.getElementsByName("refresh")[0];
-			let refreshRate = +refreshInput.value * 1000;
-			console.log("refreshRate:",refreshRate);
-			clearTimeout(timerId);
-			timerId = setTimeout(counter,refreshRate);
-			refreshInput.onchange = () => {
-				clearTimeout(timerId);
-				refreshRate = +refreshInput.value * 1000;
-				console.log("refreshRate:",refreshRate);
-				timerId = setTimeout(counter,refreshRate);
-			}				
-		}
-		let timerId = setTimeout(counter,1000);
-		window.onunload = () => {
-			//remove counter message
-			chrome.runtime.sendMessage({close:true, host}, (response)=>{
-				console.log(response);
-			});
-		}
-	}
-
-	switch (host){
-		case "tradeit.gg":{
-			document.querySelector(".rmb-item-menu").remove();
-			setTimeout(setListener,10000);
-			break;
-		}
-		case "dmarket.com":{
-			//status marker 
+	// dmarket 
+	function dmarketController() {
+		//status marker 
 			let status = document.createElement("div");
 			status.classList.add("extension-status");
 			let navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
@@ -113,14 +100,39 @@ window.onload = function () {
 			}
 			setInterval(setDmarketListener,1000);
 			//setTimeout(setDmarketListener,5000);
-			break;
-		}
-		case "skins-table.xyz":{
-			const pathName = window.location.pathname;
-			if (pathName === "/table/" ){
-				tableTracking();
+	}
+	// skins-table
+	function tableTracking() {
+		let count = 0;
+		function counter(){
+			const table = document.querySelector("table.table.table-bordered");
+			if (count !== table.tBodies[0].querySelectorAll("tr").length){
+				count = table.tBodies[0].querySelectorAll("tr").length;
+				console.log("count changed");
+				//send count on background.js
+				chrome.runtime.sendMessage({host,count}, (response)=>{
+					console.log(response);
+				})
 			}
-			break;
+			console.log("count:",count);
+			const refreshInput = document.getElementsByName("refresh")[0];
+			let refreshRate = +refreshInput.value * 1000;
+			console.log("refreshRate:",refreshRate);
+			clearTimeout(timerId);
+			timerId = setTimeout(counter,refreshRate);
+			refreshInput.onchange = () => {
+				clearTimeout(timerId);
+				refreshRate = +refreshInput.value * 1000;
+				console.log("refreshRate:",refreshRate);
+				timerId = setTimeout(counter,refreshRate);
+			}				
+		}
+		let timerId = setTimeout(counter,1000);
+		window.onunload = () => {
+			//remove counter message
+			chrome.runtime.sendMessage({close:true, host}, (response)=>{
+				console.log(response);
+			});
 		}
 	}
 }

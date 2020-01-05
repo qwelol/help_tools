@@ -1,12 +1,11 @@
 window.onload = function () { 
     let state = {};
+    let options = {};
     let host ="popup";
     // send message to initiate state
-    chrome.runtime.sendMessage({host,state}, (response)=>{
-        let res = JSON.parse(JSON.stringify(response));
-        if (res.options.state){
-            state=JSON.parse(JSON.stringify(res.options.state));
-        }
+    chrome.runtime.sendMessage({host,options}, (response)=>{
+        options = response.options? JSON.parse(JSON.stringify(response.options)):{};
+        state = options.state?JSON.parse(JSON.stringify(options.state)):{};
         console.log("state",state); 
         setListeners(); 
     })
@@ -23,8 +22,9 @@ window.onload = function () {
                 let key = e.currentTarget.dataset.option;
                 let val = e.currentTarget.classList.contains("active");
                 state[key]=val;
+                options.state = JSON.parse(JSON.stringify(state));
                 // send state 
-                chrome.runtime.sendMessage({host,state}, (response)=>{
+                chrome.runtime.sendMessage({host,options}, (response)=>{
                     console.log(response);
                 })           
             })
