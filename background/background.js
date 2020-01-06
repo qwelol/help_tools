@@ -1,4 +1,5 @@
 let count={};
+let items=[];
 let options={};
 // get options from storage
 chrome.storage.sync.get(['options'], result => {
@@ -28,12 +29,11 @@ chrome.runtime.onMessage.addListener((request,sender,sendResponse)=>{
 function changeOptions(request,sender,sendResponse){
     let isEmpty = request.options && !Object.keys(request.options).length;
     if (isEmpty){
-        // send state
+        // send options
         sendResponse({status:"ok",options});   
     }
     else {
-        // get state
-        console.log("request",request);
+        // get options
         options=JSON.parse(JSON.stringify(request.options));
         console.log("options",options);  
         sendResponse({status:"ok"});
@@ -44,14 +44,35 @@ function changeOptions(request,sender,sendResponse){
     }
 }
 function counterTracking(request,sender,sendResponse) {
-    let difference = count[sender.tab.id] && request.count? request.count - count[sender.tab.id] : 0;
-    count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+    switch (options.notifications){
+        case "change":{
+            let difference = count[sender.tab.id] && request.count? request.count - count[sender.tab.id] : 0;
+            count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+            // notification 
+            if (difference>0) {
+                showNotification("New " + difference + " Items on Skins-table");
+            }
+            break;
+        }
+        case "more":{
+            count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+            // notification
+            if (count[sender.tab.id]>options.count) {
+                showNotification("More then " + options.count + " Items on Skins-table");
+            } 
+            break;
+        }
+        case "list": {
+            count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+            items = request.items? request.items.slice() : [];           
+        }
+        default: {
+            count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+            break;
+        }
+    }
     console.log("count", count);
     sendResponse({status:"ok"});
-    // notification 
-    if (difference>0) {
-        showNotification(difference);
-    }
     // clear count if tab close
     if (request.close){
         delete count[sender.tab.id];
@@ -59,12 +80,12 @@ function counterTracking(request,sender,sendResponse) {
         console.log("count", count);
     }
 }
-function showNotification(difference) {
+function showNotification(message) {
     let notificationOptions = {
         type:"basic",
         iconUrl: "background/icon.png",
         title:"Skins-table",
-        message:"New " + difference + " Items on Skins-table",
+        message:message,
         isClickable:false,
     }
     chrome.notifications.create("",notificationOptions,id=>{

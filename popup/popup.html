@@ -35,20 +35,20 @@
             <div class="list-title">Notify by:</div>
                 <div class="li">
                     <label class="container">
-                        <input type="radio" name="list-checks" checked>
-                        <div class="text">Count change</div>
+                        <input type="radio" name="list-checks" data-notify="change">
+                        <div class="text" >Count change</div>
                     </label>
                 </div>
                 <div class="li">
                     <label class="container">
-                        <input type="radio" name="list-checks">
+                        <input type="radio" name="list-checks" data-notify="more">
                         <div class="text">Items more then </div>
                     </label>
-                    <input type="number" name="" id="" class="input">
+                    <input type="number" name="count" id="" class="input" min="0" max="99">
                 </div>
                 <div class="li">
                     <label class="container">
-                        <input type="radio" name="list-checks">
+                        <input type="radio" name="list-checks" data-notify="list">
                         <div class="text">Items from the list appeared:</div>
                     </label>
                     <button class="add">+</button>
@@ -58,7 +58,7 @@
                         <td class="table-title">Name</td>
                     </tr>
                     <tr class="tr">
-                        <!-- wil be generated -->
+                        <!-- wil be generated 
                         <td class="table-item">
                             <div class="text">Desert Eagle | Urban Rubble (Minimal Wear)</div>
                             <button class="table-btn">Remove</button>
@@ -94,7 +94,7 @@
                         <td class="table-item">
                             <div class="text">Desert Eagle | Urban Rubble (Minimal Wear)</div>
                             <button class="table-btn">Remove</button>
-                        </td>
+                        </td>-->
                     </tr>
                 </table>
             </div>

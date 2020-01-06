@@ -1,9 +1,9 @@
 window.onload = function () {
 	// get options
+	const host=window.location.hostname;
 	chrome.runtime.sendMessage({host:"options"}, (response)=>{
 		const options = response.options? JSON.parse(JSON.stringify(response.options)):{};
 		const state = options.state? JSON.parse(JSON.stringify(options.state)):{};
-		const host=window.location.hostname;
 		if (state[host]){
 			console.log("approved");
 			switch (host){
@@ -108,9 +108,15 @@ window.onload = function () {
 			const table = document.querySelector("table.table.table-bordered");
 			if (count !== table.tBodies[0].querySelectorAll("tr").length){
 				count = table.tBodies[0].querySelectorAll("tr").length;
+				let nameCells = table.getElementsByClassName("clipboard");
+				let items = [];
+				for (let i = 0; i < nameCells.length; i++) {
+					items.push(nameCells[i].textContent);
+				}
 				console.log("count changed");
-				//send count on background.js
-				chrome.runtime.sendMessage({host,count}, (response)=>{
+				console.log("items",items);
+				//send data on background
+				chrome.runtime.sendMessage({host,count, items}, (response)=>{
 					console.log(response);
 				})
 			}

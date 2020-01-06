@@ -43,7 +43,7 @@ label {
     background: #1C2A39;
     padding: 18px 0;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .popup:hover::-webkit-scrollbar-thumb{
     background: #7DB139;

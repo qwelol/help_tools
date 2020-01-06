@@ -1,17 +1,19 @@
 window.onload = function () { 
-    let state = {};
     let options = {};
-    let host ="popup";
+    let state = {};
+    let notifications={}; 
+    const host ="popup";
     // send message to initiate state
     chrome.runtime.sendMessage({host,options}, (response)=>{
         options = response.options? JSON.parse(JSON.stringify(response.options)):{};
         state = options.state?JSON.parse(JSON.stringify(options.state)):{};
-        console.log("state",state); 
+        notifications = options.notifications?JSON.parse(JSON.stringify(options.notifications)):{};
+        console.log("notifications",notifications); 
         setListeners(); 
     })
     function setListeners() {
-            let rows = document.getElementsByClassName("row");
-            for (let i=0; i<rows.length; i++){
+        let rows = document.getElementsByClassName("row");
+        for (let i=0; i<rows.length; i++){
             // set class by state value 
             if (state[rows[i].dataset.option]){
                 rows[i].classList.add("active"); 
@@ -24,10 +26,30 @@ window.onload = function () {
                 state[key]=val;
                 options.state = JSON.parse(JSON.stringify(state));
                 // send state 
-                chrome.runtime.sendMessage({host,options}, (response)=>{
-                    console.log(response);
-                })           
+                sendOptions();          
             })
         }
+        let checks = document.getElementsByName("list-checks");
+        for (let i=0; i<checks.length; i++){
+            if (notifications===checks[i].dataset.notify){
+                checks[i].checked = true;
+            }
+            checks[i].addEventListener("change", ()=> {
+                notifications = checks[i].dataset.notify;
+                options.notifications = JSON.parse(JSON.stringify(notifications));
+                sendOptions();
+            })
+        }
+        let count = document.getElementsByName("count")[0];
+        count.value=options.count? options.count : 0;
+        count.addEventListener("change", ()=> {
+            options.count = count.value;          
+            sendOptions();
+        })
+    }
+    function sendOptions() {
+        chrome.runtime.sendMessage({host,options}, (response)=>{
+            console.log(response);
+        });
     }  
 }
