@@ -104,22 +104,26 @@ window.onload = function () {
 	// skins-table
 	function tableTracking() {
 		let count = 0;
+		let itemsOld=[];
 		function counter(){
 			const table = document.querySelector("table.table.table-bordered");
-			if (count !== table.tBodies[0].querySelectorAll("tr").length){
-				count = table.tBodies[0].querySelectorAll("tr").length;
-				let nameCells = table.getElementsByClassName("clipboard");
-				let items = [];
-				for (let i = 0; i < nameCells.length; i++) {
+			let nameCells = table.getElementsByClassName("clipboard");
+			let items = [];
+			for (let i = 0; i < nameCells.length; i++) {
+				if (search(itemsOld, nameCells[i].textContent)){
 					items.push(nameCells[i].textContent);
 				}
+			}
+			if (items.length){
+				count = table.tBodies[0].querySelectorAll("tr").length;
 				console.log("count changed");
-				console.log("items",items);
 				//send data on background
 				chrome.runtime.sendMessage({host,count, items}, (response)=>{
 					console.log(response);
 				})
+				itemsOld=JSON.parse(JSON.stringify(items));
 			}
+			console.log("items",items);
 			console.log("count:",count);
 			const refreshInput = document.getElementsByName("refresh")[0];
 			let refreshRate = +refreshInput.value * 1000;
@@ -140,5 +144,13 @@ window.onload = function () {
 				console.log(response);
 			});
 		}
+	}
+	function search(arr, val){
+		for (let i=0; i<arr.length; i++){
+			if (arr[i].indexOf(val)!==-1){
+				return false;
+			}
+		}
+		return true; 
 	}
 }

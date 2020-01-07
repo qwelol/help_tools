@@ -64,7 +64,9 @@ function counterTracking(request,sender,sendResponse) {
         }
         case "list": {
             count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
-            items = request.items? request.items.slice() : [];           
+            items = request.items? JSON.parse(JSON.stringify(request.items)) : [];
+            search();
+            
         }
         default: {
             count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
@@ -78,6 +80,17 @@ function counterTracking(request,sender,sendResponse) {
         delete count[sender.tab.id];
         console.log("closed counter for",sender.tab.id);
         console.log("count", count);
+    }
+}
+function search(){
+    if (options.itemsList && options.itemsList.length){ 
+        for (let i=0; i<items.length; i++){
+            for(let j=0; j<options.itemsList.length; j++){
+                if(items[i].indexOf(options.itemsList[j])!==-1){
+                    showNotification(items[i] + " appeard on Skins-table");
+                }
+            }
+        }          
     }
 }
 function showNotification(message) {
