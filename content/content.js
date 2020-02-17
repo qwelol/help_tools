@@ -109,13 +109,16 @@ window.onload = function () {
 			const table = document.querySelector("table.table.table-bordered");
 			let nameCells = table.getElementsByClassName("clipboard");
 			let items = [];
+			let changeItems = false;
 			for (let i = 0; i < nameCells.length; i++) {
+				items.push(nameCells[i].textContent);
 				if (search(itemsOld, nameCells[i].textContent)){
-					items.push(nameCells[i].textContent);
+					changeItems=true;
 				}
 			}
-			if (items.length){
-				count = table.tBodies[0].querySelectorAll("tr").length;
+			let condition = changeItems || !!(itemsOld.length-items.length);
+			if (condition){
+				count = items.length;
 				console.log("count changed");
 				//send data on background
 				chrome.runtime.sendMessage({host,count, items}, (response)=>{

@@ -4,7 +4,7 @@ let options={};
 // get options from storage
 chrome.storage.sync.get(['options'], result => {
     console.log('received options ', result.options);
-    options=JSON.parse(JSON.stringify(result.options));
+    options=result.options?JSON.parse(JSON.stringify(result.options)):{};
 });
 
 chrome.runtime.onMessage.addListener((request,sender,sendResponse)=>{
@@ -46,8 +46,8 @@ function changeOptions(request,sender,sendResponse){
 function counterTracking(request,sender,sendResponse) {
     switch (options.notifications){
         case "change":{
-            let difference = count[sender.tab.id] && request.count? request.count - count[sender.tab.id] : 0;
-            count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+            let difference = count[sender.tab.id] && !isNaN(request.count)? request.count - count[sender.tab.id] : 0;
+            count[sender.tab.id] = !isNaN(request.count)? request.count: count[sender.tab.id];
             // notification 
             if (difference>0) {
                 showNotification("New " + difference + " Items on Skins-table");
@@ -55,7 +55,7 @@ function counterTracking(request,sender,sendResponse) {
             break;
         }
         case "more":{
-            count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+            count[sender.tab.id] = !isNaN(request.count)? request.count: count[sender.tab.id];
             // notification
             if (count[sender.tab.id]>options.count) {
                 showNotification("More then " + options.count + " Items on Skins-table");
@@ -63,13 +63,13 @@ function counterTracking(request,sender,sendResponse) {
             break;
         }
         case "list": {
-            count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+            count[sender.tab.id] = !isNaN(request.count)? request.count: count[sender.tab.id];
             items = request.items? JSON.parse(JSON.stringify(request.items)) : [];
             search();
-            
+            break;
         }
         default: {
-            count[sender.tab.id] = request.count? request.count: count[sender.tab.id];
+            count[sender.tab.id] = !isNaN(request.count)? request.count: count[sender.tab.id];
             break;
         }
     }
