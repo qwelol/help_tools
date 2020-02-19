@@ -11,7 +11,8 @@ window.onload = function () {
         notifications = options.notifications?JSON.parse(JSON.stringify(options.notifications)):{};
         itemsList = options.itemsList? JSON.parse(JSON.stringify(options.itemsList)) : [];
         generator();
-        setListeners(); 
+        setListeners();
+
     })
     function generator(){ 
         for (let i = 0; i < itemsList.length; i++) {
@@ -19,6 +20,7 @@ window.onload = function () {
         }
     }
     function setListeners() {
+        //rows
         let rows = document.getElementsByClassName("row");
         for (let i=0; i<rows.length; i++){
             // set class by state value 
@@ -36,6 +38,7 @@ window.onload = function () {
                 sendOptions();          
             })
         }
+        //checks
         let checks = document.getElementsByName("list-checks");
         for (let i=0; i<checks.length; i++){
             if (notifications===checks[i].dataset.notify){
@@ -47,12 +50,15 @@ window.onload = function () {
                 sendOptions();
             })
         }
+        // count 
         let count = document.getElementsByName("count")[0];
         count.value=options.count? options.count : 0;
         count.addEventListener("change", ()=> {
+            count.value = count.value>0? count.value<100?count.value : 99 : 0;
             options.count = count.value;          
             sendOptions();
         })
+        // addition block
         let add = document.querySelector(".popup .list .li .add");
         let addition = document.querySelector(".popup .list .addition");
         let additionBtn = addition.querySelector(".addition-btn");

@@ -165,19 +165,18 @@ label {
 }
 .popup .list .addition .input::placeholder {
     font-size: 12px;
-    font-weight: bold;
     line-height: 14px;
     color: #7e5e5e;
 }
 .popup .list .addition-btn {
-    width: 82px;
+    width: 72px;
     height: 100%;
-    background: #B2B6B4;
-    border-radius: 18px;
+    background: #EEEEEE;
+    border-radius: 4px;
     cursor: pointer;
 }
 .popup .list .addition-btn:hover {
-    background: #7DB139;
+    background: #90E028;
 }
 .popup .table {
     width: 100%;
@@ -192,6 +191,7 @@ label {
     line-height: 16px;
     color: #BDD5DF;  
     padding: 0 10px;
+    user-select: none;
 }
 .popup .table .tr .table-item {
     display: flex;
@@ -212,6 +212,7 @@ label {
     color: #ff0000;
     background: transparent;
     cursor: pointer;
+    user-select: none;
 }
 .popup .table .tr .table-item .table-btn:hover {
     text-decoration: underline;
