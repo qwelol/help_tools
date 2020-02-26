@@ -46,60 +46,62 @@ window.onload = function () {
 	// dmarket 
 	function dmarketController() {
 		//status marker 
-			let status = document.createElement("div");
-			status.classList.add("extension-status");
-			let navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
-			if (navControls) {
-				navControls.appendChild(status);
-			}
+		let status = document.createElement("div");
+		status.classList.add("extension-status");
+		let navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
+		if (navControls) {
+			navControls.appendChild(status);
+		}
+		
+		let counter = 0;
+		function setDmarketListener(){
 			
-			let counter = 0;
-			function setDmarketListener(){
-				
-				let appids = {
-					"cs:go":"730",
-					"dota 2": "570",
-				}
-				let rows = document.querySelectorAll("od-virtualrow");
-				let gameContainer = document.querySelector(".c-dialogFilters__select-value");
-				let currentGame = gameContainer? gameContainer.textContent.toLowerCase() : null;
-				if (Object.keys(appids).indexOf(currentGame)!== -1 && rows.length) {	
-					let appid = appids[currentGame];
-					for (let i=0; i<rows.length; i++){
-						let children = rows[i].querySelectorAll(".c-asset.ng-star-inserted");
-						for (let j=0; j<children.length; j++){
-							// search
-							children[j].oncontextmenu = ()=> {
-								let searchContext = children[j].querySelector(".c-asset__img").alt;
-								window.open('https://steamcommunity.com/market/search?appid='+appid+'&q='+searchContext);
+			let appids = {
+				"cs:go":"730",
+				"dota 2": "570",
+			}
+			let rows = document.querySelectorAll(".c-assets-container");
+			let gameContainer = document.querySelector(".c-dialogFilters__select-value");
+			let currentGame = gameContainer? gameContainer.textContent.toLowerCase() : null;
+			if (Object.keys(appids).indexOf(currentGame)!== -1 && rows.length) {	
+				let appid = appids[currentGame];
+				for (let i=0; i<rows.length; i++){
+					let children = rows[i].querySelectorAll("asset-card");
+					for (let j=0; j<children.length; j++){
+						// search
+						children[j].oncontextmenu = e => {
+							e.preventDefault();
+							e.stopPropagation();
+							let searchContext = children[j].querySelector(".c-asset__img").alt;
+							window.open('https://steamcommunity.com/market/search?appid='+appid+'&q='+searchContext);
+						}
+						// highlighting 
+						let icon = children[j].querySelector("span .c-asset__lockIcon");
+						if (icon){
+							let iconName = icon.getAttribute("inlinesvg");
+							let cart = children[j].querySelector("div.c-asset__inner");
+							if (iconName === "icon-unlock.svg") {
+								cart.classList.add("highlited");
 							}
-							// highlighting 
-							let icon = children[j].querySelector("span .c-asset__lockIcon");
-							if (icon){
-								let iconName = icon.getAttribute("inlinesvg");
-								let cart = children[j].querySelector("div.c-asset__inner");
-								if (iconName === "icon-unlock.svg") {
-									cart.classList.add("highlited");
-								}
-								else {
-									cart.classList.remove("highlited");
-								}
+							else {
+								cart.classList.remove("highlited");
 							}
 						}
 					}
-					navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
-					if (navControls) {
-						navControls.appendChild(status);
-					}
-					if (!counter) {
-						status.classList.add("good");
-					}
-					counter++;
 				}
-				// setTimeout(setDmarketListener,1000);
+				navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
+				if (navControls) {
+					navControls.appendChild(status);
+				}
+				if (!counter) {
+					status.classList.add("good");
+				}
+				counter++;
 			}
-			setInterval(setDmarketListener,1000);
-			//setTimeout(setDmarketListener,5000);
+			// setTimeout(setDmarketListener,1000);
+		}
+		setInterval(setDmarketListener,1000);
+		//setTimeout(setDmarketListener,5000);
 	}
 	// skins-table
 	function tableTracking() {
