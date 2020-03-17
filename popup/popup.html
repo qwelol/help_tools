@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script src="popup.js"></script>
+      <link rel="stylesheet" href="popup.css">
+      <link href="https://fonts.googleapis.com/css?family=Arimo&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="popup">
+        <div class="row" data-option="tradeit.gg">
+            <div class="title">Tradeit.gg</div>
+            <div class="toggle">
+                <div class="bg" >
+                    <div class="button"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-option="dmarket.com">
+            <div class="title">Dmarket.com</div>
+            <div class="toggle">
+                <div class="bg" >
+                        <div class="button"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row" data-option="skins-table.xyz">
+            <div class="title">Skins-table.xyz</div>
+            <div class="toggle">
+                <div class="bg" >
+                    <div class="button"></div>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="list-title">Notify by:</div>
+                <div class="li">
+                    <label class="container">
+                        <input type="radio" name="list-checks" data-notify="change">
+                        <div class="text" >Count change</div>
+                    </label>
+                </div>
+                <div class="li">
+                    <label class="container">
+                        <input type="radio" name="list-checks" data-notify="more">
+                        <div class="text">Items more then </div>
+                    </label>
+                    <input type="number" name="count" id="" class="input" min="0" max="99">
+                </div>
+                <div class="li">
+                    <label class="container">
+                        <input type="radio" name="list-checks" data-notify="list">
+                        <div class="text">Items from the list appeared:</div>
+                    </label>
+                    <button class="add">+</button>
+                </div>
+                <div class="addition">
+                    <input type="text" name="" maxlength="70" class="input" placeholder="Paste the name of the item here">
+                    <button class="addition-btn">Add</button>
+                </div>
+                <table class="table">
+                    <tr class="tr">
+                        <td class="table-title">Name</td>
+                    </tr>
+                    <tr class="tr content">
+                        <!-- Content example -->
+                        <!-- <td class="table-item">
+                            <div class="text">Item name 1</div>
+                            <button class="table-btn">Remove</button>
+                        </td>
+                        <td class="table-item">
+                            <div class="text">Item name 2</div>
+                            <button class="table-btn">Remove</button>
+                        </td>-->
+                    </tr>
+                </table>
+            </div>
+    </div>
+  </body>
+</html>

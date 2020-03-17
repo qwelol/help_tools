@@ -14,3 +14,6 @@
 .extension-status.good {
     background-color: #00ff00;
 }
+.c-asset__inner.highlited {
+    background-color: lightseagreen;
+}
