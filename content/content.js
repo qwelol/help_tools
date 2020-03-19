@@ -78,9 +78,9 @@ window.onload = function () {
 						// highlighting 
 						let icon = children[j].querySelector("span .c-asset__lockIcon");
 						if (icon){
-							let iconName = icon.getAttribute("inlinesvg");
+							let iconName = icon.querySelector("use").href.baseVal;
 							let cart = children[j].querySelector("div.c-asset__inner");
-							if (iconName === "icon-unlock.svg") {
+							if (iconName && iconName.search("icon-unlock") !== -1) {
 								cart.classList.add("highlited");
 							}
 							else {
