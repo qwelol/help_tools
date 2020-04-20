@@ -18,7 +18,7 @@ window.onload = function () {
 				}
 				case "skins-table.xyz":{
 					const pathName = window.location.pathname;
-					if (pathName === "/table/" ){
+					if (pathName.indexOf("/table") !== -1 ){
 						tableTracking();
 					}
 					break;
@@ -55,37 +55,33 @@ window.onload = function () {
 		
 		let counter = 0;
 		function setDmarketListener(){
-			
 			let appids = {
 				"cs:go":"730",
 				"dota 2": "570",
 			}
-			let rows = document.querySelectorAll(".c-assets-container");
 			let gameContainer = document.querySelector(".c-dialogFilters__select-value");
 			let currentGame = gameContainer? gameContainer.textContent.toLowerCase() : null;
-			if (Object.keys(appids).indexOf(currentGame)!== -1 && rows.length) {	
+			if (Object.keys(appids).indexOf(currentGame)!== -1) {	
 				let appid = appids[currentGame];
-				for (let i=0; i<rows.length; i++){
-					let children = rows[i].querySelectorAll("asset-card");
-					for (let j=0; j<children.length; j++){
-						// search
-						children[j].oncontextmenu = e => {
-							e.preventDefault();
-							e.stopPropagation();
-							let searchContext = children[j].querySelector(".c-asset__img").alt;
-							window.open('https://steamcommunity.com/market/search?appid='+appid+'&q='+searchContext);
+				let children = document.querySelectorAll("asset-card");
+				for (let j=0; j<children.length; j++){
+					// search
+					children[j].oncontextmenu = e => {
+						e.preventDefault();
+						e.stopPropagation();
+						let searchContext = children[j].querySelector(".c-asset__img").alt;
+						window.open('https://steamcommunity.com/market/search?appid='+appid+'&q='+searchContext);
+					}
+					// highlighting 
+					let icon = children[j].querySelector("span .c-asset__lockIcon");
+					if (icon){
+						let iconName = icon.querySelector("use").href.baseVal;
+						let cart = children[j].querySelector("div.c-asset__inner");
+						if (iconName && iconName.search("icon-unlock") !== -1) {
+							cart.classList.add("highlited");
 						}
-						// highlighting 
-						let icon = children[j].querySelector("span .c-asset__lockIcon");
-						if (icon){
-							let iconName = icon.querySelector("use").href.baseVal;
-							let cart = children[j].querySelector("div.c-asset__inner");
-							if (iconName && iconName.search("icon-unlock") !== -1) {
-								cart.classList.add("highlited");
-							}
-							else {
-								cart.classList.remove("highlited");
-							}
+						else {
+							cart.classList.remove("highlited");
 						}
 					}
 				}
