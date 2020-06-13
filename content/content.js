@@ -58,6 +58,7 @@ window.onload = function () {
 			let appids = {
 				"cs:go":"730",
 				"dota 2": "570",
+				"team fortress 2":"440"
 			}
 			let gameContainer = document.querySelector(".c-dialogFilters__select-value");
 			let currentGame = gameContainer? gameContainer.textContent.toLowerCase() : null;
