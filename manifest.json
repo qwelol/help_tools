@@ -1,7 +1,7 @@
 {
 	"name":"Help Tools",
 	"description":"Any tools for me",
-	"version":"0.2",
+	"version":"0.3",
 	"manifest_version":2,
 	"content_scripts":[
 		{

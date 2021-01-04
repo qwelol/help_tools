@@ -53,31 +53,42 @@ window.onload = function () {
 			navControls.appendChild(status);
 		}
 		
-		let counter = 0;
+		let statusVal = false;
 		function setDmarketListener(){
-			let appids = {
+			const APPIDS = {
 				"cs:go":"730",
 				"dota 2": "570",
 				"team fortress 2":"440"
 			}
-			let gameContainer = document.querySelector(".c-dialogFilters__select-value");
-			let currentGame = gameContainer? gameContainer.textContent.toLowerCase() : null;
-			if (Object.keys(appids).indexOf(currentGame)!== -1) {	
-				let appid = appids[currentGame];
-				let children = document.querySelectorAll("asset-card");
-				for (let j=0; j<children.length; j++){
+			
+			let marketGameContainer = document.querySelector(".c-dialogFilters__select-value");
+			let currentMarketGame = marketGameContainer? marketGameContainer.textContent.toLowerCase() : null;
+			let inventoryGameContainer = document.querySelector(".mat-select-value-text span");
+			let currentInventoryGame = inventoryGameContainer? inventoryGameContainer.textContent.toLowerCase() : null;
+			let itemCards = document.querySelectorAll("asset-card");
+			for (let j=0; j<itemCards.length; j++){
+				let analyticsId = itemCards[j].dataset.analyticsId;
+				let currentGame;
+				if (analyticsId==="list_userInventory"){
+					currentGame = currentInventoryGame; 
+				}
+				if (analyticsId==="list_marketInventory"){
+					currentGame=currentMarketGame;
+				}
+				if (Object.keys(APPIDS).indexOf(currentGame)!== -1) {	
 					// search
-					children[j].oncontextmenu = e => {
+					itemCards[j].oncontextmenu = e => {
 						e.preventDefault();
 						e.stopPropagation();
-						let searchContext = children[j].querySelector(".c-asset__img").alt;
-						window.open('https://steamcommunity.com/market/search?appid='+appid+'&q='+searchContext);
+						let searchContext = itemCards[j].querySelector(".c-asset__img").alt;
+						window.open('https://steamcommunity.com/market/search?appid='+APPIDS[currentGame]+'&q='+searchContext);
 					}
 					// highlighting 
-					let icon = children[j].querySelector("span .c-asset__lockIcon");
-					if (icon){
+					let icon = itemCards[j].querySelector("span .c-asset__lockIcon");
+					let steamIcon = itemCards[j].querySelector(".c-asset__steamIcon.o-icon");
+					if (icon && !steamIcon){
 						let iconName = icon.querySelector("use").href.baseVal;
-						let cart = children[j].querySelector("div.c-asset__inner");
+						let cart = itemCards[j].querySelector("div.c-asset__inner");
 						if (iconName && iconName.search("icon-unlock") !== -1) {
 							cart.classList.add("highlited");
 						}
@@ -86,19 +97,14 @@ window.onload = function () {
 						}
 					}
 				}
-				navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
-				if (navControls) {
-					navControls.appendChild(status);
-				}
-				if (!counter) {
-					status.classList.add("good");
-				}
-				counter++;
 			}
-			// setTimeout(setDmarketListener,1000);
+
+			if (statusVal) {
+				status.classList.add("good");
+			}
+			statusVal=true;
 		}
 		setInterval(setDmarketListener,1000);
-		//setTimeout(setDmarketListener,5000);
 	}
 	// skins-table
 	function tableTracking() {

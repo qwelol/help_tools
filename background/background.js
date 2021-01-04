@@ -46,7 +46,7 @@ function changeOptions(request,sender,sendResponse){
 function counterTracking(request,sender,sendResponse) {
     switch (options.notifications){
         case "change":{
-            let difference = count[sender.tab.id] && !isNaN(request.count)? request.count - count[sender.tab.id] : 0;
+            let difference = !isNaN(count[sender.tab.id]) && !isNaN(request.count)? request.count - count[sender.tab.id] : 0;
             count[sender.tab.id] = !isNaN(request.count)? request.count: count[sender.tab.id];
             // notification 
             if (difference>0) {
