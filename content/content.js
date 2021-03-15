@@ -84,7 +84,7 @@ window.onload = function () {
 						window.open('https://steamcommunity.com/market/search?appid='+APPIDS[currentGame]+'&q='+searchContext);
 					}
 					// highlighting 
-					let icon = itemCards[j].querySelector("span .c-asset__lockIcon");
+					let icon = itemCards[j].querySelector(".c-asset__lockIcon");
 					let steamIcon = itemCards[j].querySelector(".c-asset__steamIcon.o-icon");
 					if (icon && !steamIcon){
 						let iconName = icon.querySelector("use").href.baseVal;
@@ -98,7 +98,10 @@ window.onload = function () {
 					}
 				}
 			}
-
+			navControls = document.querySelector(".c-exchangeHeader__inner--market .c-navigationControls.c-navigationControls--exchange");
+			if (navControls) {
+				navControls.appendChild(status);
+			}
 			if (statusVal) {
 				status.classList.add("good");
 			}
