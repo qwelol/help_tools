@@ -16,4 +16,5 @@
 }
 .c-asset__inner.highlited {
     background-color: lightseagreen;
+    border: 3px solid lightseagreen;
 }
